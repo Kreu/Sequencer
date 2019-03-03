@@ -99,7 +99,6 @@ def FilterSequence(nucleotide_list, quality_list, quality_cutoff):
   if len(nucleotide_list) != len(quality_list):
     raise ValueError('Nucleotide and scores lists are not equal in length, indicating malformed data')
 
-
   logging.info("Signal threshold has been set to " + str(quality_cutoff))
   position = 0
   filtered_sequence = []
@@ -164,9 +163,7 @@ def main():
 
   if (arguments.r):
     logging.info("Reverse complement specified")
-
     nucleotide_scores = nucleotide_scores[::-1]
-
     nucleotide_sequence = ReverseComplement(nucleotide_sequence)
 
   nucleotide_sequence = list(nucleotide_sequence)
