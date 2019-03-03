@@ -35,10 +35,17 @@ parser.add_argument('-r',
 
 arguments = parser.parse_args()
 
-#Fetch the sequence from a FASTA file containing a single entry
-#
-#Reads a FASTA file containing a single sequence and returns the sequence information
-#If the file contains more than one sequence, the extra sequences are not processed
+"""Fetch the sequence from a FASTA file containing a single entry.
+
+Read a FASTA file containing a single sequence and return the sequence information
+If the file contains more than one sequence, the extra sequences are not processed
+
+Args:
+  filename: Path to a file to be processed.
+
+Returns:
+  String containing the FASTA content with newlines stripped.
+"""
 def ReadFile(filename):
   with open(filename, 'r') as file:
     header_found = False;
@@ -53,27 +60,24 @@ def ReadFile(filename):
         return line.strip('\n')
 
 
-#Filters nucleotides based on the signal cutoff.
-#
-#Takes two lists, one containing nucleotide sequences and one containing the 
-#scores for said nucleotides, as well a quality cutoff, and replaces all nucleotides 
-#whose score is lower than the cutoff value with a '-' (dash)
-#
-#Parameters:
-#   nucleotide_list = A list of nucleotides
-#   scores_list = A list of nucleotide scores that correspond to the nucleotides in 
-#                 nucleotide_list
-#   quality_cutoff = -10*log10(P) value where P is the probability of a miscall.
-#           quencer
-#       For example, a signal cutoff value of 30 means there is a 
-#                   1/1000 chance of miscalled base. (log10(1/1000) = -3 * -10 = 30)
-#
-#Returns:
-#   A list of filtered nucleotides with a score equal to or above the cutoff value.
-#   All base calls below the threshold are replaced by gaps ('-').
-#
-#EXAMPLE
-#TODO
+"""Filter nucleotides based on the signal cutoff.
+
+Filter two lists containing nucleotide sequence and corresponding scores based
+on the specified quality cutoff. Any nucleotides with a score lower than the
+cutoff is replalced by a gap ('-')
+
+Args:
+   nucleotide_list: A list of nucleotides
+   scores_list: A list of nucleotide scores that correspond to the nucleotides in 
+                 nucleotide_list
+   quality_cutoff: Equal to -10*log10(P) value where P is the probability of a miscall.
+                    For example, a signal cutoff value of 30 means there is a 
+                    1/1000 chance of miscalled base. (log10(1/1000) = -3 * -10 = 30)
+
+Returns:
+   A list of filtered nucleotides with a score equal to or above the cutoff value.
+   All base calls below the threshold are replaced by gaps ('-').
+"""
 def FilterSequence(nucleotide_list, quality_list, quality_cutoff):
   logging.debug(f'Input nucleotides list: {nucleotide_list}')
   logging.debug(f'Input quality scores list: {quality_list}')
@@ -105,16 +109,29 @@ def FilterSequence(nucleotide_list, quality_list, quality_cutoff):
 
     position += 1
 
-
   return filtered_sequence
 
+"""Write the results into a text file
 
+Args:
+  output_file: Name of the file to write results into
+  data: String of data to be written
+"""
 def WriteOutput(output_file, data):
   with open(output_file, 'w') as output:
     output.write(data)
   print("Writing results into " + output_file)
 
+"""Reverse complement a DNA sequence
 
+Reverse complement a sequence. Non-DNA characters are unmodified and retained.
+
+Args:
+  sequence: DNA sequence
+
+Returns:
+  Reverse complemented DNA string
+"""
 def ReverseComplement(sequence):
   reverse_sequence = sequence[::-1]
   reverse_complement = ""
