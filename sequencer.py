@@ -3,7 +3,7 @@ Sequencer extracts sequencing reads from result files. Applies a
 user-specified cutoff to the sequencing files for a signal threshold and 
 discards everything below that by changing those basecalls to a gap ('-').
 
-For help, run it with -h option 
+For help, run it with -h option. 
 """
 
 import argparse
