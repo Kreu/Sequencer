@@ -1,6 +1,10 @@
-#Simple script to map sequencing reads to your DNA of interest. Applies a 
-#user-specified cutoff to the sequencing files for a signal threshold and 
-#discards everything below that by changing those basecalls to a gap ('-').
+"""
+Sequencer extracts sequencing reads from result files. Applies a 
+user-specified cutoff to the sequencing files for a signal threshold and 
+discards everything below that by changing those basecalls to a gap ('-').
+
+For help, run it with -h option 
+"""
 
 import argparse
 import sys
@@ -46,7 +50,7 @@ Args:
 Returns:
   String containing the FASTA content with newlines stripped.
 """
-def ReadFile(filename):
+def ReadFileContent(filename):
   with open(filename, 'r') as file:
     header_found = False;
     for line in file:
@@ -155,8 +159,8 @@ def main():
 
   #Nucleotide quality scores comes as a string of space-separated numbers so we need 
   #to split them by space to get a list of individual scores.
-  nucleotide_scores = ReadFile(arguments.s).split(' ')
-  nucleotide_sequence = ReadFile(arguments.n)
+  nucleotide_scores = ReadFileContent(arguments.s).split(' ')
+  nucleotide_sequence = ReadFileContent(arguments.n)
 
   if (arguments.r):
     logging.info("Reverse complement specified")
