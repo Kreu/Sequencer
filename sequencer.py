@@ -152,6 +152,7 @@ def ReverseComplement(sequence):
   return reverse_complement
 
 
+#TODO: Tidy up the main function and make the data preprocessing more clear
 def main():
   logging.info(f'Nucleotide sequence file: {arguments.n}')
   logging.info(f'Nucleotide scores file: {arguments.s}')
